@@ -134,7 +134,7 @@ Sixteen SQLite tables (STRICT); every secret is stored as a hash, never in the c
 | Table | Key columns | Notes |
 | --- | --- | --- |
 | `users` | id, email (case-insensitive, unique), name, tier, tier_source, status, dash_staff_id unique, dash_roles, licensed, title, office | Status follows Dash sync; tier_source: dash or panel; dash_staff_id is Dash's companyStaffGUID |
-| `user_mls_ids` | user_id, mls, mls_id | Unique on (mls, mls_id); one person, many MLSs |
+| `user_mls_ids` | user_id, mls, mls_id | One person, many MLS IDs; a team MLS ID is shared by everyone on the team |
 | `identities` | user_id, provider, provider_sub, email | Unique on (provider, provider_sub) |
 | `apps` | id slug, name, owner_user_id, base_url, redirect_uris, pending_redirect_uris, status, manifest | Status: pending, active, disabled; new redirect URIs wait in pending_redirect_uris |
 | `registrants` | id, app_id, secret_hash, prev_secret_hash, prev_expires_at, allowed_cidrs, last_seen_at | prev_secret_hash supports the 24 h rotation overlap |
@@ -247,7 +247,7 @@ Account goes live after milestone 1; Listing Marketing goes live after milestone
 - [x] Ed25519 key generation, encrypted storage, JWKS
 - [x] JWT sign and verify (`node:crypto`, EdDSA)
 - [x] HMAC request signing (shared by registration, `/token` and the Dash webhook)
-- [ ] Dash import from the kpdd.com staff API (`docs/kpdd-api.md`)
+- [x] Directory sync from the kpdd.com staff API (`docs/kpdd-api.md`): import script with `--dry-run`, webhook queue and worker, nightly sync (pulled forward from milestone 2)
 - [ ] Magic link send, confirm page, consume
 - [ ] `/authorize` + auth session cookie + auth codes with PKCE
 - [ ] `/token`: authorization_code and refresh_token with rotation and grace

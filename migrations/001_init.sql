@@ -23,9 +23,11 @@ CREATE TABLE user_mls_ids (
   user_id TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   mls     TEXT NOT NULL,
   mls_id  TEXT NOT NULL,
-  PRIMARY KEY (mls, mls_id)
+  PRIMARY KEY (user_id, mls, mls_id)
 ) STRICT;
-CREATE INDEX user_mls_ids_user ON user_mls_ids (user_id);
+-- Not unique: a team MLS ID is shared by every agent on the team, alongside each
+-- agent's own ID.
+CREATE INDEX user_mls_ids_lookup ON user_mls_ids (mls, mls_id);
 
 CREATE TABLE identities (
   user_id      TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,

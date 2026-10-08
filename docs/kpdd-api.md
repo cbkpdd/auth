@@ -25,7 +25,7 @@ One record per person after dedupe. All fields are always present; use `null`, n
   "name": "Jane Doe",
   "active": true,
   "licensed": true,
-  "roles": ["SA", "OM"],
+  "roles": ["OM", "SA"],
   "title": "Sales Associate",
   "office": "Columbus",
   "mls_ids": [
@@ -44,9 +44,9 @@ One record per person after dedupe. All fields are always present; use `null`, n
 | `name` | string | Display name. |
 | `active` | boolean | False once they leave. Turning false disables sign-in and revokes every session. |
 | `licensed` | boolean | True when the person has an open role in SA, SX, BR, RB, SM or PM. Sets the starting tier: licensed → agent, otherwise → staff. |
-| `roles` | array of strings | Every open Dash role code, uppercase (e.g. `["SA", "OM"]`); empty if none. Opening or closing a role changes `updated_at`. Requested in Change Request 1. |
+| `roles` | array of strings | Every open Dash role code, uppercase, sorted alphabetically (e.g. `["OM", "SA"]`); empty if none. A merge survivor also carries its merged records' roles. Opening or closing a role changes `updated_at`. Live since 2026-10-08 (Change Request 1). |
 | `title`, `office` | string or null | Shown in the admin panel only. |
-| `mls_ids` | array | Every MLS membership. `mls` is one of `CBOR`, `EABOR`, `LCAR`, `SWGAMLS`, `GAMLS` (from `MLSes.code`); `mls_id` passes through as stored. Can be empty, including for licensed agents whose profile lacks MLS IDs. |
+| `mls_ids` | array | Every MLS membership. `mls` is one of `CBOR`, `EABOR`, `LCAR`, `SWGAMLS`, `GAMLS` (from `MLSes.code`); `mls_id` passes through as stored. Can be empty, including for licensed agents whose profile lacks MLS IDs. A team MLS ID appears on every team member's record, so the same pair can belong to several people. |
 | `merged_into` | string or null | Set when dedupe folds this record into another person: the surviving `dash_staff_id`. A merged record also has `active: false`. |
 | `updated_at` | ISO 8601 UTC | Changes whenever any field above changes, including merges and deactivation. |
 

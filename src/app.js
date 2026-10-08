@@ -1,9 +1,10 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { wellKnownRoutes } from './routes/wellknown.js';
+import { directoryRoutes } from './routes/directory.js';
 
 // Builds the Express app from its dependencies so tests can pass in fakes.
-export function createApp({ config, keys }) {
+export function createApp({ config, db, keys }) {
   const app = express();
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback');
@@ -13,6 +14,7 @@ export function createApp({ config, keys }) {
   app.use(cookieParser());
 
   app.use(wellKnownRoutes({ config, keys }));
+  app.use(directoryRoutes({ config, db }));
 
   app.use((_req, res) => res.status(404).json({ error: 'not_found' }));
   app.use((err, _req, res, _next) => {

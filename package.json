@@ -15,7 +15,8 @@
     "dev": "node --env-file-if-exists=.env --watch src/server.js",
     "test": "node --test",
     "migrate": "node --env-file-if-exists=.env scripts/migrate.js",
-    "auth:keys": "node --env-file-if-exists=.env scripts/keys.js"
+    "auth:keys": "node --env-file-if-exists=.env scripts/keys.js",
+    "auth:import-dash": "node --env-file-if-exists=.env scripts/import-dash.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
